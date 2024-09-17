@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Registrar Usuario</h2>
+  <form #usuarioForm="ngForm" (ngSubmit)="agregarUsuario(usuarioForm)" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre Completo</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.nombre" name="nombre" required #nombre="ngModel" />
+      <mat-error *ngIf="nombre.invalid && nombre.touched">El nombre es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="nuevoUsuario.correo" name="correo" type="email" required #correo="ngModel" />
+      <mat-error *ngIf="correo.invalid && correo.touched">Correo no válido o vacío</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button [disabled]="usuarioForm.invalid">Añadir</button>
+  </form>
+
+  <h3>Usuarios Registrados</h3>
+  <table mat-table [dataSource]="usuarios" *ngIf="usuarios.length > 0">
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.nombre }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="correo">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.correo }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['nombre', 'correo']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['nombre', 'correo'];"></tr>
+  </table>
+
+  <p *ngIf="usuarios.length === 0">Aún no hay usuarios registrados.</p>
+</div>
